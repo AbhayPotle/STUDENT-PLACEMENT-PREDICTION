@@ -127,6 +127,23 @@ const windowHalfY = window.innerHeight / 2;
 document.addEventListener('mousemove', (event) => {
     mouseX = (event.clientX - windowHalfX);
     mouseY = (event.clientY - windowHalfY);
+
+    // Full Dashboard 3D Parallax Tilt
+    const dashboard = document.querySelector('.dashboard-layout');
+    if (dashboard) {
+        // Subtle tilt values for professional look
+        const tiltX = (mouseY / windowHalfY) * -3; 
+        const tiltY = (mouseX / windowHalfX) * 3;
+        dashboard.style.transform = `perspective(1500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.01, 1.01, 1.01)`;
+    }
+});
+
+// Reset tilt on mouse leave
+document.addEventListener('mouseleave', () => {
+    const dashboard = document.querySelector('.dashboard-layout');
+    if (dashboard) {
+        dashboard.style.transform = 'perspective(1500px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    }
 });
 
 // Handle Resize
