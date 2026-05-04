@@ -52,6 +52,8 @@ body {
     padding: 3rem 2rem;
     position: relative;
     z-index: 1;
+    transition: transform 0.1s ease-out; /* Smooth 3D tilt recovery */
+    transform-style: preserve-3d;
 }
 
 .header {
@@ -83,12 +85,30 @@ body {
    ========================================= */
 .glass-panel {
     background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 240, 255, 0.15);
     border-radius: 20px;
     padding: 2.5rem;
-    box-shadow: var(--glass-shadow);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(20px); /* Push forward for 3D depth */
+}
+
+/* Animated gradient border effect */
+.glass-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), var(--secondary-color), transparent);
+    animation: scanline 4s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes scanline {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 /* =========================================
