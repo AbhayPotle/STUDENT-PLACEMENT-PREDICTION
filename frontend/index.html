@@ -93,7 +93,16 @@
             <h2 id="result-title">Prediction Result</h2>
             <div id="result-status" class="status-badge"></div>
             <p id="result-confidence">Confidence: <span></span></p>
-            <button id="close-modal" class="outline-btn">Close</button>
+            
+            <div id="insights-container" class="hidden">
+                <h3>Actionable Insights</h3>
+                <ul id="insights-list"></ul>
+            </div>
+
+            <div class="modal-actions">
+                <a href="http://127.0.0.1:5000/download-guide" target="_blank" class="glow-on-hover small-btn" id="download-pdf-btn">Download Guide PDF</a>
+                <button id="close-modal" class="outline-btn">Close</button>
+            </div>
         </div>
     </div>
 

@@ -190,6 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingOverlay = document.getElementById('loading-overlay');
     const statusBadge = document.getElementById('result-status');
     const confidenceSpan = document.querySelector('#result-confidence span');
+    const insightsContainer = document.getElementById('insights-container');
+    const insightsList = document.getElementById('insights-list');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -227,6 +229,19 @@ document.addEventListener('DOMContentLoaded', () => {
             statusBadge.textContent = data.result;
             statusBadge.className = 'status-badge ' + (data.result === 'Placed' ? 'placed' : 'not-placed');
             confidenceSpan.textContent = data.confidence;
+
+            // Handle Insights
+            insightsList.innerHTML = ''; // clear previous
+            if (data.insights && data.insights.length > 0) {
+                data.insights.forEach(insight => {
+                    const li = document.createElement('li');
+                    li.textContent = insight;
+                    insightsList.appendChild(li);
+                });
+                insightsContainer.classList.remove('hidden');
+            } else {
+                insightsContainer.classList.add('hidden');
+            }
 
             loadingOverlay.classList.add('hidden');
             modal.classList.remove('hidden');
