@@ -202,6 +202,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const jobFitDesc = document.getElementById('job-fit-description');
     const insightsList = document.getElementById('insights-list');
 
+    // Dynamic Education Path Toggle
+    const edPathSelect = document.getElementById('education_path');
+    const interFields = document.querySelectorAll('.dynamic-inter');
+    const diplomaFields = document.querySelectorAll('.dynamic-diploma');
+    const interInputs = [document.getElementById('inter_1'), document.getElementById('inter_2')];
+    const diplomaInput = document.getElementById('diploma_marks');
+
+    edPathSelect.addEventListener('change', (e) => {
+        if (e.target.value === 'intermediate') {
+            interFields.forEach(el => el.classList.remove('hidden'));
+            diplomaFields.forEach(el => el.classList.add('hidden'));
+            interInputs.forEach(i => i.required = true);
+            diplomaInput.required = false;
+        } else {
+            interFields.forEach(el => el.classList.add('hidden'));
+            diplomaFields.forEach(el => el.classList.remove('hidden'));
+            interInputs.forEach(i => i.required = false);
+            diplomaInput.required = true;
+        }
+    });
+    // Trigger change initially to set correct required attributes
+    edPathSelect.dispatchEvent(new Event('change'));
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -211,10 +234,20 @@ document.addEventListener('DOMContentLoaded', () => {
         
         loadingOverlay.classList.remove('hidden');
 
+        const edPath = document.getElementById('education_path').value;
+        const inter1 = document.getElementById('inter_1').value;
+        const inter2 = document.getElementById('inter_2').value;
+        const diploma = document.getElementById('diploma_marks').value;
+
         const payload = {
+            current_course: document.getElementById('current_course').value,
+            education_path: edPath,
+            inter_1: inter1 ? parseFloat(inter1) : null,
+            inter_2: inter2 ? parseFloat(inter2) : null,
+            diploma_marks: diploma ? parseFloat(diploma) : null,
+
             CGPA: parseFloat(document.getElementById('CGPA').value),
             SSC_Marks: parseFloat(document.getElementById('SSC_Marks').value),
-            HSC_Marks: parseFloat(document.getElementById('HSC_Marks').value),
             Projects: parseInt(document.getElementById('Projects').value),
             Internships: parseInt(document.getElementById('Internships').value),
             "Workshops/Certifications": parseInt(document.getElementById('Workshops').value),

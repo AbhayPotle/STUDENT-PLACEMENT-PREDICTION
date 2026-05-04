@@ -63,6 +63,16 @@
                 <h3 class="section-title">Academic Metrics</h3>
                 <div class="form-grid">
                     <div class="input-group">
+                        <label for="current_course">Current Course</label>
+                        <select id="current_course" required>
+                            <option value="B.Tech/B.E.">B.Tech / B.E.</option>
+                            <option value="B.Sc">B.Sc</option>
+                            <option value="B.Com">B.Com</option>
+                            <option value="BBA">BBA</option>
+                            <option value="Arts/Humanities">Arts / Humanities</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
                         <label for="CGPA">Current CGPA (out of 10)</label>
                         <input type="number" id="CGPA" step="0.01" min="0" max="10" required placeholder="e.g. 8.5">
                     </div>
@@ -70,9 +80,31 @@
                         <label for="SSC_Marks">SSC Marks (%)</label>
                         <input type="number" id="SSC_Marks" step="0.01" min="0" max="100" required placeholder="e.g. 90">
                     </div>
+                </div>
+
+                <div class="form-grid mt-2">
                     <div class="input-group">
-                        <label for="HSC_Marks">HSC Marks (%)</label>
-                        <input type="number" id="HSC_Marks" step="0.01" min="0" max="100" required placeholder="e.g. 85">
+                        <label for="education_path">Prior Education Pathway</label>
+                        <select id="education_path" required>
+                            <option value="intermediate">Intermediate (11th & 12th)</option>
+                            <option value="diploma">Diploma</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Intermediate Fields -->
+                    <div class="input-group dynamic-inter">
+                        <label for="inter_1">Inter 1st Year (%)</label>
+                        <input type="number" id="inter_1" step="0.01" min="0" max="100" placeholder="e.g. 85">
+                    </div>
+                    <div class="input-group dynamic-inter">
+                        <label for="inter_2">Inter 2nd Year (%)</label>
+                        <input type="number" id="inter_2" step="0.01" min="0" max="100" placeholder="e.g. 88">
+                    </div>
+
+                    <!-- Diploma Field (Hidden by default) -->
+                    <div class="input-group dynamic-diploma hidden">
+                        <label for="diploma_marks">Diploma Overall (%)</label>
+                        <input type="number" id="diploma_marks" step="0.01" min="0" max="100" placeholder="e.g. 82">
                     </div>
                 </div>
 
