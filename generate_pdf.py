@@ -1,68 +1,130 @@
 from fpdf import FPDF
 
+class PDF(FPDF):
+    def header(self):
+        # Logo or Title Header
+        self.set_font('Arial', 'B', 15)
+        self.set_text_color(41, 128, 185) # Blue
+        self.cell(0, 10, 'NexGen AI Placement Insights', 0, 1, 'R')
+        self.ln(5)
+
+    def footer(self):
+        # Position at 1.5 cm from bottom
+        self.set_y(-15)
+        self.set_font('Arial', 'I', 8)
+        self.set_text_color(128)
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+
 def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
-    pdf = FPDF()
+    pdf = PDF()
     pdf.add_page()
     
     # Title
     pdf.set_font("Arial", 'B', 24)
-    pdf.set_text_color(0, 51, 102)
+    pdf.set_text_color(44, 62, 80) # Dark Blue/Grey
     pdf.cell(0, 20, "The Ultimate Blueprint for Placement Success", 0, 1, 'C')
+    pdf.set_font("Arial", 'I', 12)
+    pdf.set_text_color(127, 140, 141)
+    pdf.cell(0, 10, "Data-Driven Approaches to Maximize Your Placement Probability", 0, 1, 'C')
     pdf.ln(10)
 
-    # Section 1: How the AI Prediction Model Works
+    # Section 1: How the AI Prediction Model Evaluates You
     pdf.set_font("Arial", 'B', 16)
+    pdf.set_text_color(41, 128, 185)
+    pdf.cell(0, 10, "1. How the AI Prediction Model Evaluates You", 0, 1)
+    
+    pdf.set_font("Arial", '', 11)
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 10, "1. Understanding the AI Prediction Model", 0, 1)
-    
-    pdf.set_font("Arial", '', 12)
-    pdf.multi_cell(0, 8, (
-        "Our machine learning pipeline uses a Logistic Regression model trained on high-dimensional data, "
-        "optimized using Principal Component Analysis (PCA). The key factors it evaluates are:\n"
-        "- Academic Consistency: Steady CGPA combined with SSC and HSC marks.\n"
-        "- Practical Experience: Projects and Internships hold significant weight.\n"
-        "- Skill Metrics: A balance between Aptitude Test Scores and Soft Skills Rating.\n"
+    pdf.multi_cell(0, 6, (
+        "Our NexGen ML pipeline evaluates your profile using a Logistic Regression model trained on real-world placement data. "
+        "It looks at specific metrics to calculate your probability of getting placed. Understanding these metrics is the key "
+        "to hacking your placement chances:\n\n"
+        "- Academic Consistency (CGPA, SSC, HSC): Your CGPA acts as an initial filter for recruiters (Applicant Tracking Systems). "
+        "A consistent score indicates reliability and ability to learn.\n"
+        "- Practical Experience (Internships & Projects): These are the highest-impact features. They prove you can apply theoretical "
+        "knowledge to solve real-world business problems.\n"
+        "- Skill Metrics (Aptitude & Soft Skills): Aptitude clears the first round of assessments; soft skills clear the HR and managerial rounds.\n"
+        "- Initiative (Extracurriculars & Training): Shows leadership, teamwork, and a proactive mindset."
     ))
-    pdf.ln(5)
+    pdf.ln(8)
 
-    # Section 2: High-ROI Technical Skills
+    # Section 2: Concrete Approaches to Maximize Probability
     pdf.set_font("Arial", 'B', 16)
-    pdf.cell(0, 10, "2. High-ROI Technical Skills to Master", 0, 1)
+    pdf.set_text_color(41, 128, 185)
+    pdf.cell(0, 10, "2. Concrete Approaches to Maximize Probability", 0, 1)
     
-    pdf.set_font("Arial", '', 12)
-    pdf.multi_cell(0, 8, (
-        "To increase your placement prediction score, focus on acquiring highly sought-after skills:\n"
-        "- Cloud Computing (AWS/Azure): Gain basic certifications (e.g., AWS Cloud Practitioner).\n"
-        "- Full-Stack Development: Master React.js for frontend and Node.js or Python (Flask/Django) for backend.\n"
-        "- Data & AI: Familiarity with Pandas, Scikit-Learn, and LLM prompting is increasingly valuable.\n"
-        "- DevOps Basics: Learn Docker and Git for CI/CD workflows."
+    pdf.set_font("Arial", 'B', 12)
+    pdf.set_text_color(44, 62, 80)
+    pdf.cell(0, 8, "A. Hacking the 'Projects' Metric (Aim for 3+)", 0, 1)
+    pdf.set_font("Arial", '', 11)
+    pdf.set_text_color(0, 0, 0)
+    pdf.multi_cell(0, 6, (
+        "Do not just list academic projects. Build 'Proof of Work':\n"
+        "- Build Full-Stack Apps: Ensure your projects are hosted live (e.g., Vercel, Netlify) so recruiters can click and interact.\n"
+        "- Solve Real Problems: Build an inventory manager, an AI-powered resume analyzer, or a placement tracker.\n"
+        "- GitHub Excellence: Ensure every repository has a detailed README.md containing screenshots, architecture diagrams, and installation steps."
     ))
-    pdf.ln(5)
+    pdf.ln(4)
 
-    # Section 3: Soft Skills & Interview Preparation
-    pdf.set_font("Arial", 'B', 16)
-    pdf.cell(0, 10, "3. Soft Skills & Interview Preparation", 0, 1)
-    
-    pdf.set_font("Arial", '', 12)
-    pdf.multi_cell(0, 8, (
-        "Technical skills get you the interview, but soft skills get you the job:\n"
-        "- Communication: Practice explaining complex technical concepts simply (The Feynman Technique).\n"
-        "- Behavioral Interviews: Use the STAR method (Situation, Task, Action, Result) for HR rounds.\n"
-        "- Mock Interviews: Participate in peer-to-peer or AI-driven mock interviews to reduce anxiety."
+    pdf.set_font("Arial", 'B', 12)
+    pdf.set_text_color(44, 62, 80)
+    pdf.cell(0, 8, "B. The 'Internship' Advantage (Aim for 1-2)", 0, 1)
+    pdf.set_font("Arial", '', 11)
+    pdf.set_text_color(0, 0, 0)
+    pdf.multi_cell(0, 6, (
+        "- Cold Emailing: Reach out directly to startup founders on LinkedIn or Twitter/X. Offer to work for free for 1 month to prove your value.\n"
+        "- Open Source: If you can't get a corporate internship, successfully contributing to major Open Source projects (like Mozilla or React) holds equal or more weight in interviews."
     ))
-    pdf.ln(5)
+    pdf.ln(4)
 
-    # Section 4: Resume & Portfolio Optimization
-    pdf.set_font("Arial", 'B', 16)
-    pdf.cell(0, 10, "4. Resume & Portfolio Optimization", 0, 1)
-    
-    pdf.set_font("Arial", '', 12)
-    pdf.multi_cell(0, 8, (
-        "- ATS Formatting: Ensure your resume is readable by Applicant Tracking Systems (no complex tables or graphics).\n"
-        "- Impact-Driven Bullet Points: Don't just list what you did. Use the format: 'Accomplished [X] as measured by [Y], by doing [Z]'.\n"
-        "- GitHub Portfolio: Ensure you have 2-3 high-quality, pinned repositories with excellent README files."
+    pdf.set_font("Arial", 'B', 12)
+    pdf.set_text_color(44, 62, 80)
+    pdf.cell(0, 8, "C. Elevating 'Aptitude' & 'Soft Skills'", 0, 1)
+    pdf.set_font("Arial", '', 11)
+    pdf.set_text_color(0, 0, 0)
+    pdf.multi_cell(0, 6, (
+        "- Aptitude: Dedicate 1 hour daily to Data Interpretation, Logical Reasoning, and Quantitative skills on IndiaBix or HackerRank.\n"
+        "- Soft Skills: The 'STAR' Method. Whenever asked a behavioral question, structure your answer using:\n"
+        "   S - Situation (What was the context?)\n"
+        "   T - Task (What was your specific responsibility?)\n"
+        "   A - Action (What exactly did YOU do to solve it?)\n"
+        "   R - Result (What was the quantifiable outcome? e.g., 'Improved efficiency by 20%')"
     ))
+    pdf.ln(8)
+
+    pdf.add_page()
+
+    # Section 3: High-ROI Technical Skills Timeline
+    pdf.set_font("Arial", 'B', 16)
+    pdf.set_text_color(41, 128, 185)
+    pdf.cell(0, 10, "3. High-ROI Technical Skills Timeline", 0, 1)
     
+    pdf.set_font("Arial", '', 11)
+    pdf.set_text_color(0, 0, 0)
+    pdf.multi_cell(0, 6, (
+        "If you are short on time, prioritize these specific technologies which currently have the highest market demand:\n\n"
+        "Tier 1 (Must Have): Git/GitHub, Linux Basics, SQL, Data Structures & Algorithms (in Python/Java/C++).\n"
+        "Tier 2 (Web/Software Dev): React.js (Frontend), Node.js/Express or Python/Django (Backend), RESTful APIs.\n"
+        "Tier 3 (Cloud & DevOps): Docker (Containerization), AWS Cloud Practitioner (Certification is a huge bonus), CI/CD pipelines.\n"
+        "Tier 4 (AI/Data): Familiarity with LLM APIs (OpenAI/Gemini), Pandas, and basic Machine Learning pipelines."
+    ))
+    pdf.ln(8)
+
+    # Section 4: Resume & ATS Optimization
+    pdf.set_font("Arial", 'B', 16)
+    pdf.set_text_color(41, 128, 185)
+    pdf.cell(0, 10, "4. Resume & ATS Optimization Strategy", 0, 1)
+    
+    pdf.set_font("Arial", '', 11)
+    pdf.set_text_color(0, 0, 0)
+    pdf.multi_cell(0, 6, (
+        "If your resume gets rejected by the ATS (Applicant Tracking System), an HR person will never even see it.\n\n"
+        "- Format: Use a simple, single-column text format (like Jake's Resume template on Overleaf). Avoid graphics, photos, or complex tables.\n"
+        "- Keywords: Tailor your resume for every job. If the job description asks for 'Python' and 'REST APIs', ensure those exact words are in your skills section.\n"
+        "- Impact Bullet Points: Do not write 'Developed a website'. Write 'Architected a scalable e-commerce frontend using React.js, improving page load speeds by 40% and increasing user retention.'\n"
+        "- Metrics: Always use numbers. Quantify your achievements."
+    ))
+
     # Save the PDF
     pdf.output(output_path)
     return output_path
