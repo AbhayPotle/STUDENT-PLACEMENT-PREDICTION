@@ -132,7 +132,8 @@ def predict():
 @app.route("/download-guide", methods=["GET"])
 def download_guide():
     try:
-        return send_file("Placement_Success_Blueprint.pdf", as_attachment=True)
+        # Use mimetype='application/pdf' to allow the browser to preview it instead of forcing a download
+        return send_file("Placement_Success_Blueprint.pdf", mimetype='application/pdf', as_attachment=False)
     except Exception as e:
         return str(e), 404
 
