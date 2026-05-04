@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexGen Placement AI</title>
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Three.js Canvas Container -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="main-container">
+        <header class="header">
+            <h1 class="glitch" data-text="NexGen Placement AI">NexGen Placement AI</h1>
+            <p>Predict your career trajectory using our advanced machine learning pipeline.</p>
+        </header>
+
+        <main class="glass-panel">
+            <form id="prediction-form">
+                <div class="form-grid">
+                    <!-- Academic Performance -->
+                    <div class="input-group">
+                        <label for="CGPA">CGPA (out of 10)</label>
+                        <input type="number" id="CGPA" step="0.1" min="0" max="10" required placeholder="e.g. 8.5">
+                    </div>
+                    <div class="input-group">
+                        <label for="SSC_Marks">SSC Marks (%)</label>
+                        <input type="number" id="SSC_Marks" step="0.1" min="0" max="100" required placeholder="e.g. 85">
+                    </div>
+                    <div class="input-group">
+                        <label for="HSC_Marks">HSC Marks (%)</label>
+                        <input type="number" id="HSC_Marks" step="0.1" min="0" max="100" required placeholder="e.g. 80">
+                    </div>
+
+                    <!-- Skills & Experience -->
+                    <div class="input-group">
+                        <label for="AptitudeTestScore">Aptitude Test Score</label>
+                        <input type="number" id="AptitudeTestScore" step="1" min="0" max="100" required placeholder="e.g. 75">
+                    </div>
+                    <div class="input-group">
+                        <label for="SoftSkillsRating">Soft Skills Rating (out of 5)</label>
+                        <input type="number" id="SoftSkillsRating" step="0.1" min="0" max="5" required placeholder="e.g. 4.2">
+                    </div>
+                    <div class="input-group">
+                        <label for="Projects">Number of Projects</label>
+                        <input type="number" id="Projects" step="1" min="0" required placeholder="e.g. 3">
+                    </div>
+
+                    <!-- Additional Qualifications -->
+                    <div class="input-group">
+                        <label for="Internships">Number of Internships</label>
+                        <input type="number" id="Internships" step="1" min="0" required placeholder="e.g. 1">
+                    </div>
+                    <div class="input-group">
+                        <label for="Workshops">Workshops / Certifications</label>
+                        <input type="number" id="Workshops" step="1" min="0" required placeholder="e.g. 2">
+                    </div>
+
+                    <!-- Binary Inputs -->
+                    <div class="input-group">
+                        <label for="Extracurricular">Extracurricular Activities</label>
+                        <select id="Extracurricular" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="PlacementTraining">Placement Training</label>
+                        <select id="PlacementTraining" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-wrapper">
+                    <button type="submit" id="submit-btn" class="glow-on-hover">
+                        <span>Analyze Profile</span>
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Result Modal (Hidden by default) -->
+    <div id="result-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h2 id="result-title">Prediction Result</h2>
+            <div id="result-status" class="status-badge"></div>
+            <p id="result-confidence">Confidence: <span></span></p>
+            <button id="close-modal" class="outline-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="hidden">
+        <div class="loader">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+        </div>
+    </div>
+
+    <!-- Three.js (via CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
