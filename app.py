@@ -16,15 +16,15 @@ CORS(app) # Enable Cross-Origin Resource Sharing for all routes
 
 model = joblib.load("full_ml_pipeline_model.joblib")
 
-def analyze_company_fit(course, target_job, internships, certs):
+def analyze_company_fit(course, board_10th, target_job, key_skills, work_experience, certs):
     """
     Simulated NLP engine to predict company placement based on text inputs and course.
     Matches keywords to determine tier and predicted company.
     """
-    text_corpus = f"{course} {target_job} {internships} {certs}".lower()
+    text_corpus = f"{course} {target_job} {key_skills} {work_experience} {certs}".lower()
     
     # Tier 1: FAANG / MAANG equivalents
-    tier1_keywords = ['machine learning', 'ai', 'artificial intelligence', 'cloud', 'aws', 'azure', 'google', 'microsoft', 'amazon', 'scalable', 'full stack', 'react', 'node', 'system design']
+    tier1_keywords = ['machine learning', 'ai', 'artificial intelligence', 'cloud', 'aws', 'azure', 'kubernetes', 'docker', 'google', 'microsoft', 'amazon', 'scalable', 'full stack', 'react', 'node', 'system design', 'data structures']
     # Tier 2: Top IT Services / MNCs
     tier2_keywords = ['developer', 'software engineer', 'backend', 'frontend', 'database', 'sql', 'java', 'python', 'c++', 'tcs', 'infosys', 'wipro', 'cognizant']
     
@@ -34,24 +34,34 @@ def analyze_company_fit(course, target_job, internships, certs):
     # Adjust predictions based on course
     is_tech_degree = "b.tech" in course.lower() or "b.sc" in course.lower()
     
+    # Rigor prefix based on board
+    board_prefix = ""
+    if board_10th in ["CBSE", "ICSE"]:
+        board_prefix = f"Your rigorous academic foundation from {board_10th} gives you an analytical edge. "
+        
+    # Skills prefix based on high-end skills
+    skills_prefix = ""
+    if "kubernetes" in text_corpus or "aws" in text_corpus or "machine learning" in text_corpus:
+        skills_prefix = "Your highly specialized technical stack is extremely sought after right now. "
+
     if t1_score >= 3 and is_tech_degree:
         company = "Amazon / Microsoft (Tier 1 Tech)"
-        fit_desc = "Your advanced skill set in modern tech stacks aligns perfectly with Tier-1 product companies. Your engineering background supports complex system design roles."
+        fit_desc = f"{board_prefix}{skills_prefix}Your advanced skill set in modern tech stacks aligns perfectly with Tier-1 product companies. Your engineering background and experience support complex system design roles."
     elif t1_score >= 3 and not is_tech_degree:
         company = "High-Growth FinTech / Product Startups"
-        fit_desc = "You have exceptional technical skills. While lacking a traditional engineering degree, your strong project portfolio makes you highly competitive for Product Analyst or Full-Stack roles at innovative startups."
+        fit_desc = f"{board_prefix}{skills_prefix}You have exceptional technical skills. While lacking a traditional engineering degree, your strong project portfolio makes you highly competitive for Product Analyst or Full-Stack roles at innovative startups."
     elif (t2_score >= 2 or t1_score >= 1) and is_tech_degree:
         company = "TCS / Infosys (Tier 2 MNC)"
-        fit_desc = "Your foundational skills in software development make you an excellent candidate for top-tier IT service multinationals."
+        fit_desc = f"{board_prefix}Your foundational skills in software development and practical work experience make you an excellent candidate for top-tier IT service multinationals."
     elif not is_tech_degree and ("b.com" in course.lower() or "bba" in course.lower()):
         company = "Big 4 Consulting / Financial Services"
-        fit_desc = "Your commerce/business background combined with your tech exposure makes you an ideal fit for Tech Consulting or Financial Analyst roles at firms like Deloitte, PwC, or local financial institutions."
+        fit_desc = f"{board_prefix}Your commerce/business background combined with your skill exposure makes you an ideal fit for Tech Consulting or Financial Analyst roles at firms like Deloitte, PwC, or local financial institutions."
     elif "startup" in text_corpus or "intern" in text_corpus:
         company = "High-Growth Tech Startups"
-        fit_desc = "Your profile shows agility and a willingness to learn, which is highly valued in fast-paced startup environments. Focus on end-to-end product development to excel here."
+        fit_desc = f"{skills_prefix}Your profile shows agility and a willingness to learn, which is highly valued in fast-paced startup environments. Focus on end-to-end product development to excel here."
     else:
         company = "General IT Services / Core Domain Firms"
-        fit_desc = "Your current skill trajectory aligns with entry-level roles in your domain. To aim for higher-tier tech companies, consider acquiring specialized certifications (like AWS) and building cross-disciplinary projects."
+        fit_desc = f"{board_prefix}Your current skill trajectory aligns with entry-level roles in your domain. To aim for higher-tier tech companies, consider acquiring specialized certifications and building cross-disciplinary projects."
 
     return company, fit_desc
 
@@ -112,11 +122,13 @@ def predict():
 
         # Text-based Company Match Simulation
         current_course = data.get('current_course', '')
+        board_10th = data.get('board_10th', '')
+        key_skills = data.get('key_skills', '')
         target_job = data.get('target_job_description', '')
-        internship_details = data.get('internship_details', '')
+        work_experience = data.get('work_experience', '')
         cert_details = data.get('certification_details', '')
         
-        predicted_company, job_fit_desc = analyze_company_fit(current_course, target_job, internship_details, cert_details)
+        predicted_company, job_fit_desc = analyze_company_fit(current_course, board_10th, target_job, key_skills, work_experience, cert_details)
 
         return jsonify({
             "result": "Placed" if pred == 1 else "Not Placed",

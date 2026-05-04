@@ -246,14 +246,16 @@ document.addEventListener('DOMContentLoaded', () => {
             inter_2: inter2 ? parseFloat(inter2) : null,
             diploma_marks: diploma ? parseFloat(diploma) : null,
 
+            board_10th: document.getElementById('board_10th').value,
             CGPA: parseFloat(document.getElementById('CGPA').value),
             SSC_Marks: parseFloat(document.getElementById('SSC_Marks').value),
             Projects: parseInt(document.getElementById('Projects').value),
             Internships: parseInt(document.getElementById('Internships').value),
             "Workshops/Certifications": parseInt(document.getElementById('Workshops').value),
             
+            key_skills: document.getElementById('key_skills').value,
             target_job_description: document.getElementById('target_job_description').value,
-            internship_details: document.getElementById('internship_details').value,
+            work_experience: document.getElementById('work_experience').value,
             certification_details: document.getElementById('certification_details').value,
             
             ExtracurricularActivities: document.getElementById('Extracurricular').value,

@@ -77,7 +77,16 @@
                         <input type="number" id="CGPA" step="0.01" min="0" max="10" required placeholder="e.g. 8.5">
                     </div>
                     <div class="input-group">
-                        <label for="SSC_Marks">SSC Marks (%)</label>
+                        <label for="board_10th">10th Grade Board</label>
+                        <select id="board_10th" required>
+                            <option value="SSC">SSC (State Board)</option>
+                            <option value="CBSE">CBSE</option>
+                            <option value="ICSE">ICSE</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="SSC_Marks">10th Grade Marks (%)</label>
                         <input type="number" id="SSC_Marks" step="0.01" min="0" max="100" required placeholder="e.g. 90">
                     </div>
                 </div>
@@ -129,12 +138,16 @@
                 <h3 class="section-title">NLP Profile Analysis</h3>
                 <div class="form-grid-full">
                     <div class="input-group">
+                        <label for="key_skills">Key Technical & Soft Skills</label>
+                        <textarea id="key_skills" rows="2" required placeholder="e.g. Python, Machine Learning, React.js, Team Leadership..."></textarea>
+                    </div>
+                    <div class="input-group">
                         <label for="target_job_description">Target Job Description / Role</label>
                         <textarea id="target_job_description" rows="2" required placeholder="e.g. Frontend Developer focusing on React and scalable UI..."></textarea>
                     </div>
                     <div class="input-group">
-                        <label for="internship_details">Internship Details (Company & Role)</label>
-                        <textarea id="internship_details" rows="2" placeholder="e.g. Software Engineering Intern at TechCorp building internal dashboards..."></textarea>
+                        <label for="work_experience">Work Experience & Internships</label>
+                        <textarea id="work_experience" rows="2" placeholder="e.g. Software Engineering Intern at TechCorp building internal dashboards..."></textarea>
                     </div>
                     <div class="input-group">
                         <label for="certification_details">Certifications & Courses</label>
