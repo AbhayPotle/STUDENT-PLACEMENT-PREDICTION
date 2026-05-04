@@ -3,65 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexGen Placement AI</title>
-    <!-- Modern Fonts -->
+    <title>NexGen Placement AI Dashboard</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
+
+    <!-- Three.js ES Modules (Import Map) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
 </head>
 <body>
-    <!-- Three.js Canvas Container -->
+    <!-- 3D Background / Holographic Display -->
     <canvas id="bg-canvas"></canvas>
 
-    <div class="main-container">
-        <header class="header">
-            <h1 class="glitch" data-text="NexGen Placement AI">NexGen Placement AI</h1>
-            <p>Predict your career trajectory using our advanced machine learning pipeline.</p>
-        </header>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass-panel">
+            <div class="brand">
+                <div class="logo-glow"></div>
+                <h1>NexGen AI</h1>
+                <p>Enterprise Placement Analytics</p>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#" class="active">Prediction Engine</a>
+                <a href="http://127.0.0.1:5000/download-guide" target="_blank">Download Blueprint PDF</a>
+            </nav>
 
-        <main class="glass-panel">
+            <!-- Results Widget (Hidden until prediction) -->
+            <div id="analytics-widget" class="hidden">
+                <h3>Prediction Status</h3>
+                <div id="result-status" class="status-badge">Waiting...</div>
+                <p id="result-confidence">Confidence: <span>--</span></p>
+                
+                <h3 class="mt-2">Predicted Company Fit</h3>
+                <div id="predicted-company" class="company-badge">--</div>
+            </div>
+        </aside>
+
+        <!-- Main Form Content -->
+        <main class="main-content glass-panel">
+            <header class="content-header">
+                <h2>Profile Configuration</h2>
+                <p>Input your academic and experiential data for advanced NLP and ML analysis.</p>
+            </header>
+
             <form id="prediction-form">
+                <!-- Academic Section -->
+                <h3 class="section-title">Academic Metrics</h3>
                 <div class="form-grid">
-                    <!-- Academic Performance -->
                     <div class="input-group">
-                        <label for="CGPA">CGPA (out of 10)</label>
-                        <input type="number" id="CGPA" step="0.1" min="0" max="10" required placeholder="e.g. 8.5">
+                        <label for="CGPA">Current CGPA (out of 10)</label>
+                        <input type="number" id="CGPA" step="0.01" min="0" max="10" required placeholder="e.g. 8.5">
                     </div>
                     <div class="input-group">
                         <label for="SSC_Marks">SSC Marks (%)</label>
-                        <input type="number" id="SSC_Marks" step="0.1" min="0" max="100" required placeholder="e.g. 85">
+                        <input type="number" id="SSC_Marks" step="0.01" min="0" max="100" required placeholder="e.g. 90">
                     </div>
                     <div class="input-group">
                         <label for="HSC_Marks">HSC Marks (%)</label>
-                        <input type="number" id="HSC_Marks" step="0.1" min="0" max="100" required placeholder="e.g. 80">
+                        <input type="number" id="HSC_Marks" step="0.01" min="0" max="100" required placeholder="e.g. 85">
                     </div>
+                </div>
 
-                    <!-- Skills & Experience -->
-                    <div class="input-group">
-                        <label for="AptitudeTestScore">Aptitude Test Score</label>
-                        <input type="number" id="AptitudeTestScore" step="1" min="0" max="100" required placeholder="e.g. 75">
-                    </div>
-                    <div class="input-group">
-                        <label for="SoftSkillsRating">Soft Skills Rating (out of 5)</label>
-                        <input type="number" id="SoftSkillsRating" step="0.1" min="0" max="5" required placeholder="e.g. 4.2">
-                    </div>
+                <!-- Experience Section -->
+                <h3 class="section-title">Experience & Projects</h3>
+                <div class="form-grid">
                     <div class="input-group">
                         <label for="Projects">Number of Projects</label>
-                        <input type="number" id="Projects" step="1" min="0" required placeholder="e.g. 3">
+                        <input type="number" id="Projects" min="0" required placeholder="e.g. 3">
                     </div>
-
-                    <!-- Additional Qualifications -->
                     <div class="input-group">
                         <label for="Internships">Number of Internships</label>
-                        <input type="number" id="Internships" step="1" min="0" required placeholder="e.g. 1">
+                        <input type="number" id="Internships" min="0" required placeholder="e.g. 1">
                     </div>
                     <div class="input-group">
-                        <label for="Workshops">Workshops / Certifications</label>
-                        <input type="number" id="Workshops" step="1" min="0" required placeholder="e.g. 2">
+                        <label for="Workshops">Workshops/Certifications</label>
+                        <input type="number" id="Workshops" min="0" required placeholder="e.g. 2">
                     </div>
+                </div>
 
-                    <!-- Binary Inputs -->
+                <!-- Advanced NLP Inputs -->
+                <h3 class="section-title">NLP Profile Analysis</h3>
+                <div class="form-grid-full">
+                    <div class="input-group">
+                        <label for="target_job_description">Target Job Description / Role</label>
+                        <textarea id="target_job_description" rows="2" required placeholder="e.g. Frontend Developer focusing on React and scalable UI..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="internship_details">Internship Details (Company & Role)</label>
+                        <textarea id="internship_details" rows="2" placeholder="e.g. Software Engineering Intern at TechCorp building internal dashboards..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="certification_details">Certifications & Courses</label>
+                        <textarea id="certification_details" rows="2" placeholder="e.g. AWS Cloud Practitioner, Meta Front-End Developer on Coursera..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="form-grid">
                     <div class="input-group">
                         <label for="Extracurricular">Extracurricular Activities</label>
                         <select id="Extracurricular" required>
@@ -78,55 +128,36 @@
                     </div>
                 </div>
 
-                <div class="button-wrapper">
-                    <button type="submit" id="submit-btn" class="glow-on-hover">
-                        <span>Analyze Profile</span>
-                    </button>
+                <div class="submit-container">
+                    <button type="submit" class="glow-on-hover primary-btn">Run Enterprise Analysis</button>
                 </div>
             </form>
         </main>
-    </div>
 
-    <!-- Result Modal (Hidden by default) -->
-    <div id="result-modal" class="modal hidden">
-        <div class="modal-content glass-panel">
-            <h2 id="result-title">Prediction Result</h2>
-            <div id="result-status" class="status-badge"></div>
-            <p id="result-confidence">Confidence: <span></span></p>
-            
-            <div id="insights-container" class="hidden">
+        <!-- Right Side Analytics Panel -->
+        <aside class="analytics-panel glass-panel hidden" id="analytics-panel">
+            <h2>Analysis Report</h2>
+            <div class="report-section">
+                <h3>Job Fit Summary</h3>
+                <p id="job-fit-description" class="text-glow">Awaiting analysis...</p>
+            </div>
+            <div class="report-section">
                 <h3>Actionable Insights</h3>
                 <ul id="insights-list"></ul>
             </div>
-
-            <div class="modal-actions">
-                <a href="http://127.0.0.1:5000/download-guide" target="_blank" class="glow-on-hover small-btn" id="download-pdf-btn">Download Guide PDF</a>
-                <button id="close-modal" class="outline-btn">Close</button>
-            </div>
-        </div>
+        </aside>
     </div>
 
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="hidden">
         <div class="loader">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="shadow"></div>
-            <div class="shadow"></div>
-            <div class="shadow"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
+        <h2 class="loading-text">Processing Neural Network...</h2>
     </div>
 
-    <!-- Three.js Import Map -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-            }
-        }
-    </script>
     <script type="module" src="main.js"></script>
 </body>
 </html>

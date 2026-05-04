@@ -4,14 +4,16 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
 /* ==================================================
-   THREE.JS 3D BACKGROUND ANIMATION - CINEMATIC UPGRADE
+   THREE.JS 3D BACKGROUND ANIMATION - HOLOGRAPHIC CORE
    ================================================== */
 const canvas = document.getElementById('bg-canvas');
 const scene = new THREE.Scene();
 
 // Camera setup
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 60;
+// Move camera to the right so the core isn't hidden behind the main form
+camera.position.z = 50;
+camera.position.x = -15;
 
 // Renderer setup
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
@@ -48,7 +50,7 @@ pointLight2.position.set(-20, -20, 20);
 scene.add(pointLight2);
 
 // The Data Core (Central Icosahedron)
-const coreGeometry = new THREE.IcosahedronGeometry(15, 2);
+const coreGeometry = new THREE.IcosahedronGeometry(12, 2);
 const coreMaterial = new THREE.MeshStandardMaterial({
     color: 0x050505,
     emissive: 0x00f0ff,
@@ -58,10 +60,12 @@ const coreMaterial = new THREE.MeshStandardMaterial({
     metalness: 0.8
 });
 const dataCore = new THREE.Mesh(coreGeometry, coreMaterial);
+// Position it to the right background for the dashboard layout
+dataCore.position.x = 25;
 scene.add(dataCore);
 
 // Inner Core (Solid)
-const innerGeometry = new THREE.IcosahedronGeometry(10, 1);
+const innerGeometry = new THREE.IcosahedronGeometry(8, 1);
 const innerMaterial = new THREE.MeshStandardMaterial({
     color: 0x111111,
     emissive: 0x7000ff,
@@ -74,7 +78,7 @@ dataCore.add(innerCore);
 
 // Floating Data Particles around the core
 const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 1000;
+const particlesCount = 800;
 const posArray = new Float32Array(particlesCount * 3);
 const colorsArray = new Float32Array(particlesCount * 3);
 
@@ -82,12 +86,12 @@ const color1 = new THREE.Color(0x00f0ff);
 const color2 = new THREE.Color(0x7000ff);
 
 for(let i = 0; i < particlesCount * 3; i+=3) {
-    // Generate particles in a spherical distribution
-    const radius = 25 + Math.random() * 40;
+    const radius = 20 + Math.random() * 30;
     const theta = Math.random() * 2 * Math.PI;
     const phi = Math.acos(2 * Math.random() - 1);
     
-    posArray[i] = radius * Math.sin(phi) * Math.cos(theta);
+    // Shift particle origin to the right
+    posArray[i] = (radius * Math.sin(phi) * Math.cos(theta)) + 25;
     posArray[i+1] = radius * Math.sin(phi) * Math.sin(theta);
     posArray[i+2] = radius * Math.cos(phi);
 
@@ -111,7 +115,7 @@ const particlesMaterial = new THREE.PointsMaterial({
 const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particlesMesh);
 
-// Mouse Interaction & Parallax
+// Mouse Interaction Parallax
 let mouseX = 0;
 let mouseY = 0;
 let targetX = 0;
@@ -123,22 +127,6 @@ const windowHalfY = window.innerHeight / 2;
 document.addEventListener('mousemove', (event) => {
     mouseX = (event.clientX - windowHalfX);
     mouseY = (event.clientY - windowHalfY);
-    
-    // 3D Tilt Effect for Form Container
-    const formContainer = document.querySelector('.main-container');
-    if (formContainer) {
-        const tiltX = (mouseY / windowHalfY) * -5;
-        const tiltY = (mouseX / windowHalfX) * 5;
-        formContainer.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
-    }
-});
-
-// Reset tilt when mouse leaves
-document.addEventListener('mouseleave', () => {
-    const formContainer = document.querySelector('.main-container');
-    if (formContainer) {
-        formContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    }
 });
 
 // Handle Resize
@@ -165,54 +153,61 @@ function animate() {
     // Rotate Particle Field slowly
     particlesMesh.rotation.y = elapsedTime * -0.05;
 
-    // Mouse interactive rotation targeting for camera/scene parallax
-    targetX = mouseX * 0.002;
-    targetY = mouseY * 0.002;
+    // Camera Parallax based on mouse
+    targetX = mouseX * 0.001;
+    targetY = mouseY * 0.001;
 
     scene.rotation.y += 0.05 * (targetX - scene.rotation.y);
     scene.rotation.x += 0.05 * (targetY - scene.rotation.x);
     
-    // Pulse inner core emissive intensity
+    // Pulse inner core
     innerMaterial.emissiveIntensity = 0.5 + Math.sin(elapsedTime * 2) * 0.3;
 
-    // Use Composer instead of Renderer
     composer.render();
 }
 animate();
 
 /* ==================================================
-   FORM HANDLING & API INTEGRATION
+   FORM HANDLING & API INTEGRATION (DASHBOARD)
    ================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('prediction-form');
-    const modal = document.getElementById('result-modal');
-    const closeModalBtn = document.getElementById('close-modal');
     const loadingOverlay = document.getElementById('loading-overlay');
+    
+    // Sidebar elements
+    const analyticsWidget = document.getElementById('analytics-widget');
     const statusBadge = document.getElementById('result-status');
     const confidenceSpan = document.querySelector('#result-confidence span');
-    const insightsContainer = document.getElementById('insights-container');
+    const companyBadge = document.getElementById('predicted-company');
+    
+    // Analytics Panel Elements
+    const analyticsPanel = document.getElementById('analytics-panel');
+    const jobFitDesc = document.getElementById('job-fit-description');
     const insightsList = document.getElementById('insights-list');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Excitement animation before request
-        bloomPass.strength = 3.0; // Overdrive bloom
+        // Excitement animation
+        bloomPass.strength = 3.0; 
         coreMaterial.emissiveIntensity = 1.0;
         
         loadingOverlay.classList.remove('hidden');
 
         const payload = {
             CGPA: parseFloat(document.getElementById('CGPA').value),
-            Internships: parseInt(document.getElementById('Internships').value),
-            Projects: parseInt(document.getElementById('Projects').value),
-            "Workshops/Certifications": parseInt(document.getElementById('Workshops').value),
-            AptitudeTestScore: parseFloat(document.getElementById('AptitudeTestScore').value),
-            SoftSkillsRating: parseFloat(document.getElementById('SoftSkillsRating').value),
-            ExtracurricularActivities: document.getElementById('Extracurricular').value,
-            PlacementTraining: document.getElementById('PlacementTraining').value,
             SSC_Marks: parseFloat(document.getElementById('SSC_Marks').value),
-            HSC_Marks: parseFloat(document.getElementById('HSC_Marks').value)
+            HSC_Marks: parseFloat(document.getElementById('HSC_Marks').value),
+            Projects: parseInt(document.getElementById('Projects').value),
+            Internships: parseInt(document.getElementById('Internships').value),
+            "Workshops/Certifications": parseInt(document.getElementById('Workshops').value),
+            
+            target_job_description: document.getElementById('target_job_description').value,
+            internship_details: document.getElementById('internship_details').value,
+            certification_details: document.getElementById('certification_details').value,
+            
+            ExtracurricularActivities: document.getElementById('Extracurricular').value,
+            PlacementTraining: document.getElementById('PlacementTraining').value
         };
 
         try {
@@ -226,37 +221,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
+            // Populate Sidebar Widget
             statusBadge.textContent = data.result;
             statusBadge.className = 'status-badge ' + (data.result === 'Placed' ? 'placed' : 'not-placed');
             confidenceSpan.textContent = data.confidence;
+            companyBadge.textContent = data.predicted_company;
+            analyticsWidget.classList.remove('hidden');
 
-            // Handle Insights
-            insightsList.innerHTML = ''; // clear previous
+            // Populate Analytics Panel
+            jobFitDesc.textContent = data.job_fit_description;
+            
+            insightsList.innerHTML = '';
             if (data.insights && data.insights.length > 0) {
                 data.insights.forEach(insight => {
                     const li = document.createElement('li');
                     li.textContent = insight;
                     insightsList.appendChild(li);
                 });
-                insightsContainer.classList.remove('hidden');
-            } else {
-                insightsContainer.classList.add('hidden');
             }
+            analyticsPanel.classList.remove('hidden');
 
             loadingOverlay.classList.add('hidden');
-            modal.classList.remove('hidden');
 
             // Result Cinematic Reaction
             if(data.result === 'Placed') {
                 coreMaterial.emissive.setHex(0x00ff88);
                 innerMaterial.emissive.setHex(0x00ff88);
                 pointLight1.color.setHex(0x00ff88);
-                bloomPass.strength = 2.5;
+                bloomPass.strength = 2.0;
             } else {
                 coreMaterial.emissive.setHex(0xff3366);
                 innerMaterial.emissive.setHex(0xff3366);
                 pointLight1.color.setHex(0xff3366);
-                bloomPass.strength = 2.5;
+                bloomPass.strength = 2.0;
             }
             
             // Cooldown effect
@@ -272,16 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
             loadingOverlay.classList.add('hidden');
             alert('Failed to get prediction. Ensure backend is running.');
-            bloomPass.strength = 1.2; // Reset on error
+            bloomPass.strength = 1.2;
             coreMaterial.emissiveIntensity = 0.2;
         }
-    });
-
-    closeModalBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.add('hidden');
     });
 });
