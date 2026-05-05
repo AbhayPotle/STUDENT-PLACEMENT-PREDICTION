@@ -73,9 +73,7 @@ def predict():
         # Calculate HSC_Marks based on education pathway
         ed_path = data.get('education_path')
         if ed_path == 'intermediate':
-            i1 = float(data.get('inter_1', 0) or 0)
-            i2 = float(data.get('inter_2', 0) or 0)
-            data['HSC_Marks'] = (i1 + i2) / 2
+            data['HSC_Marks'] = float(data.get('inter_marks', 0) or 0)
         else:
             data['HSC_Marks'] = float(data.get('diploma_marks', 0) or 0)
 

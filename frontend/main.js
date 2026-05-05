@@ -206,20 +206,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const edPathSelect = document.getElementById('education_path');
     const interFields = document.querySelectorAll('.dynamic-inter');
     const diplomaFields = document.querySelectorAll('.dynamic-diploma');
-    const interInputs = [document.getElementById('inter_1'), document.getElementById('inter_2')];
+    const interInput = document.getElementById('inter_marks');
     const diplomaInput = document.getElementById('diploma_marks');
 
     edPathSelect.addEventListener('change', (e) => {
         if (e.target.value === 'intermediate') {
             interFields.forEach(el => el.classList.remove('hidden'));
             diplomaFields.forEach(el => el.classList.add('hidden'));
-            interInputs.forEach(i => i.required = true);
-            diplomaInput.required = false;
+            if (interInput) interInput.required = true;
+            if (diplomaInput) diplomaInput.required = false;
         } else {
             interFields.forEach(el => el.classList.add('hidden'));
             diplomaFields.forEach(el => el.classList.remove('hidden'));
-            interInputs.forEach(i => i.required = false);
-            diplomaInput.required = true;
+            if (interInput) interInput.required = false;
+            if (diplomaInput) diplomaInput.required = true;
         }
     });
     // Trigger change initially to set correct required attributes
@@ -235,15 +235,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingOverlay.classList.remove('hidden');
 
         const edPath = document.getElementById('education_path').value;
-        const inter1 = document.getElementById('inter_1').value;
-        const inter2 = document.getElementById('inter_2').value;
+        const interMarks = document.getElementById('inter_marks').value;
         const diploma = document.getElementById('diploma_marks').value;
 
         const payload = {
             current_course: document.getElementById('current_course').value,
             education_path: edPath,
-            inter_1: inter1 ? parseFloat(inter1) : null,
-            inter_2: inter2 ? parseFloat(inter2) : null,
+            inter_marks: interMarks ? parseFloat(interMarks) : null,
             diploma_marks: diploma ? parseFloat(diploma) : null,
 
             board_10th: document.getElementById('board_10th').value,
