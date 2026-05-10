@@ -2,7 +2,7 @@
 
 ![Typing SVG](https://readme-typing-svg.demolab.com?font=Orbitron&weight=900&size=45&pause=1000&color=00F0FF&center=true&vCenter=true&width=1000&lines=NexGen+Placement+AI+Dashboard;4K+Revolutionized+Enterprise+Platform;Hyper-Personalized+Career+Insights;Powered+by+Advanced+Machine+Learning)
 
-![AI Placement Wallpaper](assets/ai_placement_wallpaper.png)
+<img src="assets/ai_placement_wallpaper.png" width="800" alt="AI Placement Wallpaper" style="border-radius: 15px; margin-top: 10px; margin-bottom: 20px;">
 
 ### 🚀 A Highly Professional, 3D Realistic, 4K-Revolutionized Web Application
 
