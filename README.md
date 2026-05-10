@@ -2,6 +2,8 @@
 
 ![Typing SVG](https://readme-typing-svg.demolab.com?font=Orbitron&weight=900&size=45&pause=1000&color=00F0FF&center=true&vCenter=true&width=1000&lines=NexGen+Placement+AI+Dashboard;4K+Revolutionized+Enterprise+Platform;Hyper-Personalized+Career+Insights;Powered+by+Advanced+Machine+Learning)
 
+![AI Placement Wallpaper](assets/ai_placement_wallpaper.png)
+
 ### 🚀 A Highly Professional, 3D Realistic, 4K-Revolutionized Web Application
 
 [![Vibe Coding](https://img.shields.io/badge/Developed%20with-Vibe%20Coding-8A2BE2?style=for-the-badge&logo=shikimori&logoColor=white)](#)
