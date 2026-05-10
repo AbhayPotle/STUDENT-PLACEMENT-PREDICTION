@@ -252,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "Workshops/Certifications": parseInt(document.getElementById('Workshops').value),
             
             key_skills: document.getElementById('key_skills').value,
+            target_company: document.getElementById('target_company').value,
             target_job_description: document.getElementById('target_job_description').value,
             work_experience: document.getElementById('work_experience').value,
             certification_details: document.getElementById('certification_details').value,
@@ -278,18 +279,31 @@ document.addEventListener('DOMContentLoaded', () => {
             companyBadge.textContent = data.predicted_company;
             analyticsWidget.classList.remove('hidden');
 
-            // Populate Analytics Panel
+            // Populate Main Analytics Panel
             jobFitDesc.textContent = data.job_fit_description;
             
             insightsList.innerHTML = '';
-            if (data.insights && data.insights.length > 0) {
-                data.insights.forEach(insight => {
-                    const li = document.createElement('li');
-                    li.textContent = insight;
-                    insightsList.appendChild(li);
-                });
-            }
+            data.insights.forEach(insight => {
+                const li = document.createElement('li');
+                li.textContent = insight;
+                insightsList.appendChild(li);
+            });
+
+            // Inject massive PDF Download Button
+            const pdfLi = document.createElement('li');
+            pdfLi.innerHTML = `<a href="http://127.0.0.1:5000/download-guide" target="_blank" class="glass-btn" style="width: 100%; display: block; text-align: center; margin-top: 15px; background: rgba(46, 204, 113, 0.2); border-color: #2ecc71;">📥 Download Your Personalized Improvement Blueprint PDF</a>`;
+            insightsList.appendChild(pdfLi);
+
+            // Show Panel and Smooth Scroll to it
             analyticsPanel.classList.remove('hidden');
+            setTimeout(() => {
+                analyticsPanel.classList.add('visible');
+                // Scroll to the analytics panel so the user is notified
+                analyticsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Automatically attempt to provide the PDF
+                window.open('http://127.0.0.1:5000/download-guide', '_blank');
+            }, 100);
 
             loadingOverlay.classList.add('hidden');
 
