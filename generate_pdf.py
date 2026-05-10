@@ -15,18 +15,69 @@ class PDF(FPDF):
         self.set_text_color(128)
         self.cell(0, 10, f'Page {self.page_no()}', align='C')
 
-def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
+def create_placement_guide(user_data=None, output_path="Placement_Success_Blueprint.pdf"):
     pdf = PDF()
     pdf.add_page()
     
     # Title
     pdf.set_font("helvetica", 'B', 24)
     pdf.set_text_color(44, 62, 80) # Dark Blue/Grey
-    pdf.cell(0, 20, "The Ultimate Blueprint for Placement Success", new_x="LMARGIN", new_y="NEXT", align='C')
+    pdf.cell(0, 20, "Your Personalized Placement Blueprint", new_x="LMARGIN", new_y="NEXT", align='C')
     pdf.set_font("helvetica", 'I', 12)
     pdf.set_text_color(127, 140, 141)
     pdf.cell(0, 10, "Data-Driven Approaches to Maximize Your Placement Probability", new_x="LMARGIN", new_y="NEXT", align='C')
-    pdf.ln(10)
+    pdf.ln(5)
+
+    if user_data:
+        # Personalized Section Header
+        pdf.set_fill_color(41, 128, 185) # Blue background
+        pdf.set_text_color(255, 255, 255) # White text
+        pdf.set_font("helvetica", 'B', 16)
+        pdf.cell(0, 12, " Your Personalized Profile Analysis", border=0, new_x="LMARGIN", new_y="NEXT", fill=True, align="C")
+        pdf.ln(5)
+        
+        # Placement Probability Score
+        pdf.set_font("helvetica", 'B', 14)
+        pdf.set_text_color(44, 62, 80)
+        prob = user_data.get('confidence', 'N/A')
+        pdf.cell(0, 8, f"Calculated Placement Probability: {prob}", new_x="LMARGIN", new_y="NEXT", align="C")
+        pdf.ln(5)
+
+        # Target & Fit
+        pdf.set_font("helvetica", 'B', 12)
+        pdf.set_text_color(44, 62, 80)
+        target_co = user_data.get('target_company', 'Top Tech Firms')
+        target_co = target_co if target_co.strip() != '' else 'Top Tech Firms'
+        pdf.cell(0, 8, f"Target Company: {target_co}", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 8, f"AI Predicted Fit: {user_data.get('predicted_company', 'N/A')}", new_x="LMARGIN", new_y="NEXT")
+        
+        pdf.set_font("helvetica", 'I', 11)
+        pdf.set_text_color(100, 100, 100)
+        pdf.multi_cell(0, 6, user_data.get('job_fit_desc', ''))
+        pdf.ln(8)
+        
+        # Actionable Insights Header
+        pdf.set_fill_color(231, 76, 60) # Red background
+        pdf.set_text_color(255, 255, 255)
+        pdf.set_font("helvetica", 'B', 14)
+        pdf.cell(0, 10, " Critical Actionable Insights to Improve Your Score ", border=0, new_x="LMARGIN", new_y="NEXT", fill=True)
+        pdf.ln(5)
+
+        pdf.set_font("helvetica", '', 11)
+        pdf.set_text_color(0, 0, 0)
+        for insight in user_data.get('insights', []):
+            # Split the insight to make the first part bold (if it has a colon)
+            if ":" in insight:
+                title, desc = insight.split(":", 1)
+                pdf.set_font("helvetica", 'B', 11)
+                pdf.write(6, f"• {title}: ")
+                pdf.set_font("helvetica", '', 11)
+                pdf.write(6, f"{desc}\n\n")
+            else:
+                pdf.multi_cell(0, 6, f"• {insight}\n")
+        
+        pdf.ln(5)
+        pdf.add_page()
 
     # Section 1: How the AI Prediction Model Evaluates You
     pdf.set_font("helvetica", 'B', 16)

@@ -5,6 +5,7 @@ import pandas as pd
 import traceback
 import sklearn.compose
 import re
+from generate_pdf import create_placement_guide
 
 if not hasattr(sklearn.compose._column_transformer, '_RemainderColsList'):
     class _RemainderColsList(list):
@@ -112,16 +113,16 @@ def predict():
         # Generate Actionable Insights based on the inputs (Numeric)
         insights = []
         if data.get('CGPA', 0) < 7.5:
-            insights.append("Focus on improving your CGPA to at least 7.5 to pass initial ATS filters.")
+            insights.append("Academic Filter Alert: Your CGPA is below 7.5. Many Tier-1 companies use strict ATS filters. Focus on core subjects to boost your score above this threshold.")
         if data.get('Projects', 0) < 3:
-            insights.append("Build more hands-on projects (Full-Stack or ML) and push them to GitHub.")
+            insights.append("Project Portfolio Gap: You have fewer than 3 projects. Build and deploy at least 2 full-stack or ML projects. Ensure they have live links and well-documented GitHub READMEs.")
         if data.get('Internships', 0) < 1:
-            insights.append("Secure at least one industry internship to gain practical experience.")
+            insights.append("Experience Deficit: Lack of internship experience lowers your Tier-1 tech score. Cold email startups or contribute to Open Source for 1-2 months to build 'Proof of Work'.")
         if data.get('PlacementTraining', 'No') == 'No':
-            insights.append("Enroll in dedicated placement training programs offered by your college or online platforms.")
+            insights.append("Interview Readiness: You haven't taken formal placement training. Start dedicating 1 hour daily to Data Structures & Algorithms (LeetCode) and System Design.")
             
         if len(insights) == 0:
-            insights.append("Your profile looks strong! Keep refining your advanced skills and preparing for technical interviews.")
+            insights.append("Excellent Profile: Your quantitative metrics are strong. Shift focus to advanced System Design, Open Source contributions, and high-level behavioral interview preparation (STAR method).")
 
         # Text-based Company Match Simulation
         current_course = data.get('current_course', '')
@@ -133,6 +134,16 @@ def predict():
         cert_details = data.get('certification_details', '')
         
         predicted_company, job_fit_desc = analyze_company_fit(current_course, board_10th, target_job, target_company, key_skills, work_experience, cert_details)
+
+        # Generate Personalized PDF Blueprint
+        user_data = {
+            'target_company': target_company,
+            'predicted_company': predicted_company,
+            'job_fit_desc': job_fit_desc,
+            'insights': insights,
+            'confidence': f"{confidence:.1f}%"
+        }
+        create_placement_guide(user_data=user_data, output_path="Placement_Success_Blueprint.pdf")
 
         return jsonify({
             "result": "Placed" if pred == 1 else "Not Placed",
