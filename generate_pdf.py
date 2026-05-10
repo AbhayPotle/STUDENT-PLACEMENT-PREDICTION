@@ -3,37 +3,37 @@ from fpdf import FPDF
 class PDF(FPDF):
     def header(self):
         # Logo or Title Header
-        self.set_font('Arial', 'B', 15)
+        self.set_font('helvetica', 'B', 15)
         self.set_text_color(41, 128, 185) # Blue
-        self.cell(0, 10, 'NexGen AI Placement Insights', 0, 1, 'R')
+        self.cell(0, 10, 'NexGen AI Placement Insights', new_x="LMARGIN", new_y="NEXT", align='R')
         self.ln(5)
 
     def footer(self):
         # Position at 1.5 cm from bottom
         self.set_y(-15)
-        self.set_font('Arial', 'I', 8)
+        self.set_font('helvetica', 'I', 8)
         self.set_text_color(128)
-        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+        self.cell(0, 10, f'Page {self.page_no()}', align='C')
 
 def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
     pdf = PDF()
     pdf.add_page()
     
     # Title
-    pdf.set_font("Arial", 'B', 24)
+    pdf.set_font("helvetica", 'B', 24)
     pdf.set_text_color(44, 62, 80) # Dark Blue/Grey
-    pdf.cell(0, 20, "The Ultimate Blueprint for Placement Success", 0, 1, 'C')
-    pdf.set_font("Arial", 'I', 12)
+    pdf.cell(0, 20, "The Ultimate Blueprint for Placement Success", new_x="LMARGIN", new_y="NEXT", align='C')
+    pdf.set_font("helvetica", 'I', 12)
     pdf.set_text_color(127, 140, 141)
-    pdf.cell(0, 10, "Data-Driven Approaches to Maximize Your Placement Probability", 0, 1, 'C')
+    pdf.cell(0, 10, "Data-Driven Approaches to Maximize Your Placement Probability", new_x="LMARGIN", new_y="NEXT", align='C')
     pdf.ln(10)
 
     # Section 1: How the AI Prediction Model Evaluates You
-    pdf.set_font("Arial", 'B', 16)
+    pdf.set_font("helvetica", 'B', 16)
     pdf.set_text_color(41, 128, 185)
-    pdf.cell(0, 10, "1. How the AI Prediction Model Evaluates You", 0, 1)
+    pdf.cell(0, 10, "1. How the AI Prediction Model Evaluates You", new_x="LMARGIN", new_y="NEXT")
     
-    pdf.set_font("Arial", '', 11)
+    pdf.set_font("helvetica", '', 11)
     pdf.set_text_color(0, 0, 0)
     pdf.multi_cell(0, 6, (
         "Our NexGen ML pipeline evaluates your profile using a Logistic Regression model trained on real-world placement data. "
@@ -49,14 +49,14 @@ def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
     pdf.ln(8)
 
     # Section 2: Concrete Approaches to Maximize Probability
-    pdf.set_font("Arial", 'B', 16)
+    pdf.set_font("helvetica", 'B', 16)
     pdf.set_text_color(41, 128, 185)
-    pdf.cell(0, 10, "2. Concrete Approaches to Maximize Probability", 0, 1)
+    pdf.cell(0, 10, "2. Concrete Approaches to Maximize Probability", new_x="LMARGIN", new_y="NEXT")
     
-    pdf.set_font("Arial", 'B', 12)
+    pdf.set_font("helvetica", 'B', 12)
     pdf.set_text_color(44, 62, 80)
-    pdf.cell(0, 8, "A. Hacking the 'Projects' Metric (Aim for 3+)", 0, 1)
-    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, "A. Hacking the 'Projects' Metric (Aim for 3+)", new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("helvetica", '', 11)
     pdf.set_text_color(0, 0, 0)
     pdf.multi_cell(0, 6, (
         "Do not just list academic projects. Build 'Proof of Work':\n"
@@ -66,10 +66,10 @@ def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
     ))
     pdf.ln(4)
 
-    pdf.set_font("Arial", 'B', 12)
+    pdf.set_font("helvetica", 'B', 12)
     pdf.set_text_color(44, 62, 80)
-    pdf.cell(0, 8, "B. The 'Internship' Advantage (Aim for 1-2)", 0, 1)
-    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, "B. The 'Internship' Advantage (Aim for 1-2)", new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("helvetica", '', 11)
     pdf.set_text_color(0, 0, 0)
     pdf.multi_cell(0, 6, (
         "- Cold Emailing: Reach out directly to startup founders on LinkedIn or Twitter/X. Offer to work for free for 1 month to prove your value.\n"
@@ -77,10 +77,10 @@ def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
     ))
     pdf.ln(4)
 
-    pdf.set_font("Arial", 'B', 12)
+    pdf.set_font("helvetica", 'B', 12)
     pdf.set_text_color(44, 62, 80)
-    pdf.cell(0, 8, "C. Elevating 'Aptitude' & 'Soft Skills'", 0, 1)
-    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, "C. Elevating 'Aptitude' & 'Soft Skills'", new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("helvetica", '', 11)
     pdf.set_text_color(0, 0, 0)
     pdf.multi_cell(0, 6, (
         "- Aptitude: Dedicate 1 hour daily to Data Interpretation, Logical Reasoning, and Quantitative skills on IndiaBix or HackerRank.\n"
@@ -95,11 +95,11 @@ def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
     pdf.add_page()
 
     # Section 3: High-ROI Technical Skills Timeline
-    pdf.set_font("Arial", 'B', 16)
+    pdf.set_font("helvetica", 'B', 16)
     pdf.set_text_color(41, 128, 185)
-    pdf.cell(0, 10, "3. High-ROI Technical Skills Timeline", 0, 1)
+    pdf.cell(0, 10, "3. High-ROI Technical Skills Timeline", new_x="LMARGIN", new_y="NEXT")
     
-    pdf.set_font("Arial", '', 11)
+    pdf.set_font("helvetica", '', 11)
     pdf.set_text_color(0, 0, 0)
     pdf.multi_cell(0, 6, (
         "If you are short on time, prioritize these specific technologies which currently have the highest market demand:\n\n"
@@ -111,11 +111,11 @@ def create_placement_guide(output_path="Placement_Success_Blueprint.pdf"):
     pdf.ln(8)
 
     # Section 4: Resume & ATS Optimization
-    pdf.set_font("Arial", 'B', 16)
+    pdf.set_font("helvetica", 'B', 16)
     pdf.set_text_color(41, 128, 185)
-    pdf.cell(0, 10, "4. Resume & ATS Optimization Strategy", 0, 1)
+    pdf.cell(0, 10, "4. Resume & ATS Optimization Strategy", new_x="LMARGIN", new_y="NEXT")
     
-    pdf.set_font("Arial", '', 11)
+    pdf.set_font("helvetica", '', 11)
     pdf.set_text_color(0, 0, 0)
     pdf.multi_cell(0, 6, (
         "If your resume gets rejected by the ATS (Applicant Tracking System), an HR person will never even see it.\n\n"
